@@ -1,0 +1,131 @@
+:root {
+  --night: #050a18;
+  --navy: #0b1a3d;
+  --blue: #3f6fd8;
+  --sky: #8fb4ff;
+  --red: #ff3b4e;
+  --ice: #eef3ff;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { background: var(--night); }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow-x: hidden;
+  color: var(--ice);
+  font-family: "Rajdhani", system-ui, sans-serif;
+  background: var(--night);
+}
+
+/* Fond : l'image elle-même, floutée et assombrie */
+.backdrop {
+  position: fixed;
+  inset: -40px;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(63, 111, 216, .35), transparent 70%),
+    linear-gradient(180deg, rgba(5, 10, 24, .82), rgba(5, 10, 24, .94)),
+    url("univers-bot.jpg") center / cover no-repeat;
+  filter: blur(26px) saturate(1.2);
+}
+
+/* Grille technologique discrète */
+.grid {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(143, 180, 255, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 180, 255, .08) 1px, transparent 1px);
+  background-size: 52px 52px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 10%, transparent 80%);
+          mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 10%, transparent 80%);
+  animation: scan 16s linear infinite;
+}
+
+@keyframes scan { to { background-position: 0 52px, 52px 0; } }
+
+/* Vignette */
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, .7) 100%);
+}
+
+.presentation {
+  position: relative;
+  z-index: 3;
+  width: min(92vw, 860px);
+  padding: clamp(1.5rem, 5vh, 3rem) 0;
+  text-align: center;
+}
+
+/* Image dans un cadre bleu → rouge */
+.card {
+  padding: 4px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--blue), var(--sky) 40%, var(--red));
+  box-shadow:
+    0 0 40px rgba(63, 111, 216, .55),
+    0 0 100px rgba(63, 111, 216, .3),
+    0 30px 60px rgba(0, 0, 0, .6);
+  animation: float 7s ease-in-out infinite;
+}
+.card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+}
+
+@keyframes float {
+  50% { transform: translateY(-8px); }
+}
+
+/* Texte */
+.creator {
+  margin: clamp(1.6rem, 4vh, 2.4rem) 0 0;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  letter-spacing: .08em;
+  text-shadow: 0 0 18px rgba(63, 111, 216, .9);
+}
+
+.invite {
+  display: inline-block;
+  margin-top: 1.3rem;
+  padding: .8rem 1.6rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: clamp(1.05rem, 4vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--ice);
+  text-decoration: none;
+  background: linear-gradient(135deg, #2a52b8, var(--blue));
+  border: 1.5px solid var(--sky);
+  border-radius: 10px;
+  box-shadow: 0 0 22px rgba(63, 111, 216, .6), inset 0 0 12px rgba(255, 255, 255, .12);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.invite:hover {
+  transform: translateY(-3px);
+  border-color: var(--red);
+  box-shadow: 0 0 34px rgba(255, 59, 78, .55), 0 0 22px rgba(63, 111, 216, .8);
+}
+.invite:focus-visible { outline: 3px solid var(--sky); outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .grid, .card { animation: none; }
+  .invite { transition: none; }
+}
+
